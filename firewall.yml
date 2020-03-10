@@ -24,7 +24,7 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      https: "False"
+      https: "True"
       state: "present"
       system_interface:
         name: "{{ vlanid }}_{{ name }}"
