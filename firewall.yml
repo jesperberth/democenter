@@ -1,0 +1,92 @@
+---
+- hosts: localhost
+  vars:
+   host: "192.168.130.1"
+   username: "jesbe"
+   vdom: "Berth"
+   interface: "port5"
+   wan: "BerthWAN"
+   ssl_verify: "False"
+  vars_prompt:
+  - name: password
+    prompt: "Type the password of your fortigate admin account"
+    private: no
+  - name: name
+    prompt: "Type the vendor name"
+    private: no
+  - name: vlanid
+    prompt: "Type the vlanid"
+    private: no
+  tasks:
+  - name: Configure interface
+    fortios_system_interface:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      system_interface:
+        name: "{{ vlanid }}_{{ name }}"
+        allowaccess: "ping"
+        mode: "static"
+        ip: "192.168.{{ vlanid }}.1/24"
+        type: "vlan"
+        vlanid: "{{ vlanid }}"
+        role: "lan"
+        interface: "{{ interface }}"
+        status: "up"
+        vdom: "{{ vdom }}"
+
+  - name: Create subnet address object
+    fortios_firewall_address:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      firewall_address:
+        name: "{{ vlanid }}_{{ name }}_subnet"
+        subnet: "192.168.{{ vlanid }}.0/24"
+        associated_interface: "{{ vlanid }}_{{ name }}"
+        type: "Interface Subnet"
+
+  - name: Configure firewall interface vlan -> wan
+    fortios_firewall_policy:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "False"
+      state: "present"
+      firewall_policy:
+        action: "accept"
+        name: "{{ vlanid }}_{{ name }}-wan"
+        srcintf: 
+         - 
+           name: "{{ vlanid }}_{{ name }}"
+        dstintf: 
+         - 
+           name: "{{ wan }}"
+        srcaddr: 
+         - 
+           name: "{{ vlanid }}_{{ name }}_subnet"
+        dstaddr: 
+         - 
+           name: "all"
+        schedule: "always"
+        service: 
+         - 
+           name: "HTTP"
+         -
+           name: "HTTPS"
+         - 
+           name: "DNS"
+         - 
+           name: "SSH"
+         - 
+           name: "ALL_ICMP"
+        fsso: "disable"
+        status: enable
+        policyid: 7
