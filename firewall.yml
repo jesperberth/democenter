@@ -4,9 +4,10 @@
    host: "192.168.130.1"
    username: "jesbe"
    vdom: "Berth"
+   ssl_verify: "False"
    interface: "port5"
    wan: "BerthWAN"
-   ssl_verify: "False"
+
   vars_prompt:
   - name: password
     prompt: "Type the password of your fortigate admin account"
@@ -17,6 +18,7 @@
   - name: vlanid
     prompt: "Type the vlanid"
     private: no
+
   tasks:
   - name: Configure interface
     fortios_system_interface:
@@ -25,6 +27,7 @@
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
       https: "False"
+      ssl_verify: "False"
       state: "present"
       system_interface:
         name: "{{ vlanid }}_{{ name }}"
