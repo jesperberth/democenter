@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-   host: "192.168.130.1:4443"
+   host: "192.168.130.1"
    username: "jesbe"
    vdom: "Berth"
    interface: "port5"
