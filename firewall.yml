@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-   host: "192.168.130.1"
+   host: "192.168.130.1:4443"
    username: "jesbe"
    vdom: "Berth"
    ssl_verify: "False"
@@ -26,7 +26,7 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      https: "False"
+      https: "True"
       ssl_verify: "False"
       state: "present"
       system_interface:
