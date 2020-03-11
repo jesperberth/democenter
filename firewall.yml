@@ -54,7 +54,6 @@
         name: "{{ vlanid }}_{{ name }}_subnet"
         subnet: "192.168.{{ vlanid }}.0/24"
         associated_interface: "{{ vlanid }}_{{ name }}"
-        type: "Interface Subnet"
 
   - name: Configure firewall interface vlan -> wan
     fortios_firewall_policy:
