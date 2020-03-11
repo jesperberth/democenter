@@ -47,7 +47,8 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      https: "False"
+      https: "True"
+      ssl_verify: "False"
       state: "present"
       firewall_address:
         name: "{{ vlanid }}_{{ name }}_subnet"
@@ -61,7 +62,8 @@
       username: "{{ username }}"
       password: "{{ password }}"
       vdom:  "{{ vdom }}"
-      https: "False"
+      https: "True"
+      ssl_verify: "False"
       state: "present"
       firewall_policy:
         action: "accept"
