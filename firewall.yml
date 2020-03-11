@@ -6,7 +6,7 @@
    vdom: "Berth"
    ssl_verify: "False"
    interface: "port5"
-   wan: "BerthWAN"
+   wan: "port4"
 
   vars_prompt:
   - name: password
