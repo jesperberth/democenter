@@ -67,6 +67,7 @@
       firewall_policy:
         action: "accept"
         name: "{{ vlanid }}_{{ name }}-wan"
+        nat: "enable"
         srcintf: 
          - 
            name: "{{ vlanid }}_{{ name }}"
