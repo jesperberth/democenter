@@ -94,4 +94,4 @@
            name: "ALL_ICMP"
         fsso: "disable"
         status: enable
-        policyid: "{{ vlanid + 1 }}"
+        policyid: "{{ vlanid|int + 100 }}"
