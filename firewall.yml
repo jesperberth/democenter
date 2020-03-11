@@ -7,6 +7,7 @@
    ssl_verify: "False"
    interface: "port5"
    wan: "port4"
+   primary_lan: "130_arrowdemo"
 
   vars_prompt:
   - name: password
@@ -95,3 +96,35 @@
         fsso: "disable"
         status: enable
         policyid: "{{ vlanid|int + 100 }}"
+
+  - name: Configure firewall interface 130_arrowdemo -> vlan
+    fortios_firewall_policy:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      https: "True"
+      ssl_verify: "False"
+      state: "present"
+      firewall_policy:
+        action: "accept"
+        name: "{{ primary_lan }}-{{ vlanid }}_{{ name }}-wan"
+        srcintf: 
+         - 
+           name: "{{ primary_lan }}"
+        dstintf: 
+         - 
+           name: "{{ vlanid }}_{{ name }}"
+        srcaddr: 
+         - 
+           name: "{{ primary_lan }}_subnet"
+        dstaddr: 
+         - 
+           name: "{{ vlanid }}_{{ name }}_subnet"
+        schedule: "always"
+        service: 
+         - 
+           name: "ALL"
+        fsso: "disable"
+        status: enable
+        policyid: "{{ vlanid|int + 200 }}"
